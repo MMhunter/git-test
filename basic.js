@@ -32,7 +32,7 @@ const fs = require('fs');
 const join = require('path').join;
 
 function runGit(args) {
-  child_process.execSync('git', args);
+  child_process.execSync('/usr/local/bin/git ' + args.join(' '));
 }
 
 function stage(file) {
@@ -42,7 +42,8 @@ function stage(file) {
 /**
  * CLEAN
  */
-runGit(['reset','--hard']);
+runGit(['checkout','head', '--', 'tests']);
+runGit(['clean','-f', '--', 'tests']);
 
 /**
  * TEST CASES GENERATION
@@ -78,9 +79,118 @@ function MD() {
   const file = join('tests', 'MD.txt');
   fs.writeFileSync(file, 'MD: modified in index');
   stage(file);
-  fs.unlink(file);
+  fs.unlink(file, () => null);
 }
 GENS.push(MD);
+
+
+/**
+ * A_.txt
+ */
+function A_() {
+  const file = join('tests', 'A_.txt');
+  fs.writeFileSync(file, 'A_: initial content');
+  stage(file);
+}
+GENS.push(A_);
+
+
+/**
+ * A_.txt
+ */
+function AM() {
+  const file = join('tests', 'AM.txt');
+  fs.writeFileSync(file, 'AM: initial content');
+  stage(file);
+  fs.writeFileSync(file, 'AM: modified');
+}
+GENS.push(AM);
+
+
+/**
+ * A_.txt
+ */
+function AD() {
+  const file = join('tests', 'AD.txt');
+  fs.writeFileSync(file, 'AD: initial content');
+  stage(file);
+  fs.unlink(file, () => null);
+}
+GENS.push(AD);
+
+/**
+ * D_.txt
+ */
+function D_() {
+  const file = join('tests', 'D_.txt');
+  fs.unlink(file, () => null);
+  stage(file);
+}
+GENS.push(D_);
+
+/**
+ * R_.txt
+ */
+function R_() {
+  const src = join('tests', 'R_1.txt');
+  const target = join('tests', 'R_2.txt');
+  fs.rename(src,target, () => null);
+  stage(src);
+  stage(target);
+}
+GENS.push(R_);
+
+/**
+ * R_.txt
+ */
+function RM() {
+  const src = join('tests', 'RM1.txt');
+  const target = join('tests', 'RM2.txt');
+  fs.rename(src,target, () => null);
+  stage(src);
+  stage(target);
+  fs.writeFileSync(target, 'RM: modified in work tree');
+}
+GENS.push(RM);
+
+/**
+ * R_.txt
+ */
+function RD() {
+  const src = join('tests', 'RD1.txt');
+  const target = join('tests', 'RD2.txt');
+  fs.rename(src,target, () => null);
+  stage(src);
+  stage(target);
+  fs.unlink(target, () => null)
+}
+GENS.push(RD);
+
+/**
+ * _M.txt
+ */
+function _M() {
+  const file = join('tests', '_M.txt');
+  fs.writeFileSync(file, '_M: modified');
+}
+GENS.push(_M);
+
+/**
+ * _D.txt
+ */
+function _D() {
+  const file = join('tests', '_D.txt');
+  fs.unlink(file, () => null)
+}
+GENS.push(_D);
+
+
+
+
+
+
+
+GENS.forEach(g => g());
 
 
 
