@@ -46,17 +46,15 @@ runGit(['reset', '--', 'merges']);
 runGit(['checkout','head', '--', 'merges']);
 runGit(['clean','-f', '--', 'merges']);
 
-/**
- * TEST CASES GENERATION
- */
+runGit(['checkout', 'merge1']);
+try{
+  runGit(['branch','-d','-f','merging']);
+} catch (e) {
 
-const GENS = [];
+}
+runGit(['checkout','-b','merging']);
+runGit(['merge','merge2']);
 
-
-
-
-
-GENS.forEach(g => g());
 
 
 

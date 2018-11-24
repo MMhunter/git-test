@@ -6,7 +6,8 @@
   "scripts": {
     "gen-basic": "node basic.js",
     "gen-merge": "node merge.js",
-    "revert-basic": "git reset -- tests && git checkout HEAD -- tests && git clean -f -- tests"
+    "revert-basic": "git reset -- tests && git checkout HEAD -- tests && git clean -f -- tests",
+    "revert-merges": "git reset -- merges && git checkout HEAD -- merges && git clean -f -- merges"
   },
   "author": "",
   "license": "ISC"
