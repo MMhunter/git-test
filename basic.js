@@ -42,6 +42,7 @@ function stage(file) {
 /**
  * CLEAN
  */
+runGit(['reset', '--', 'tests']);
 runGit(['checkout','head', '--', 'tests']);
 runGit(['clean','-f', '--', 'tests']);
 
@@ -184,7 +185,14 @@ function _D() {
 }
 GENS.push(_D);
 
-
+/**
+ * _D.txt
+ */
+function _UNTRACKED() {
+  const file = join('tests', '??.txt');
+  fs.writeFileSync(file, '??: initial');
+}
+GENS.push(_UNTRACKED);
 
 
 

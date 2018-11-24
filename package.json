@@ -4,8 +4,9 @@
   "description": "",
   "main": "basic.js",
   "scripts": {
-    "gen-basic": "basic.js",
-    "gen-merge": "merge.js"
+    "gen-basic": "node basic.js",
+    "gen-merge": "node merge.js",
+    "revert-basic": "git reset -- tests && git checkout HEAD -- tests && git clean -f -- tests"
   },
   "author": "",
   "license": "ISC"
