@@ -29,6 +29,7 @@
 
 const child_process = require('child_process');
 const fs = require('fs');
+const join = require('path').join;
 
 function runGit(args) {
   child_process.execSync('git', args);
@@ -47,10 +48,40 @@ runGit(['reset','--hard']);
  * TEST CASES GENERATION
  */
 
+const GENS = [];
+
 /**
  * M_.txt
  */
-fs.writeFileSync('M_.txt','M_.txt content')
+function M_() {
+  const file = join('tests', 'M_.txt');
+  fs.writeFileSync(file, 'M_: modified');
+  stage(file);
+}
+GENS.push(M_);
+
+/**
+ * MM.txt
+ */
+function MM() {
+  const file = join('tests', 'MM.txt');
+  fs.writeFileSync(file, 'MM: modified in index');
+  stage(file);
+  fs.writeFileSync(file, 'MM: modified in work tree');
+}
+GENS.push(MM);
+
+/**
+ * MD.txt
+ */
+function MD() {
+  const file = join('tests', 'MD.txt');
+  fs.writeFileSync(file, 'MD: modified in index');
+  stage(file);
+  fs.unlink(file);
+}
+GENS.push(MD);
+
 
 
 
