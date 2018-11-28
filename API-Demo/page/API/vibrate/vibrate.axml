@@ -1,0 +1,11 @@
+<view class="page">
+
+  <button type="primary" onTap="vibrateLong">
+    长时间震动 (400ms)
+  </button>
+
+  <button type="primary" onTap="vibrateShort">
+    短时间震动 (15ms)
+  </button>
+
+</view>
